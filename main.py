@@ -84,7 +84,21 @@ class RRT:
 
     # trace the path from goal to start
     def retraceRRTPath(self, goal):
-        pass
+        if goal is None or goal.parent is None:
+            return
+
+        #end recursion when goal node reaches the start node
+        if goal.x == self.randomTree.x and goal.y ==self.randomTree.y:
+            return
+        
+        self.numWaypoints += 1
+        currentPoint = np.array([goal.x, goal.y])
+        self.waypoints.insert(0, currentPoint)
+        self.totalDistance += self.distance
+        #Daca suntem aproape de goal distanta poate fii mai mica deci cea de jos ar fii mai precisa
+        #self.totalDistance += np.linalg.norm(np.array([goal.x, goal.y]) - np.array([goal.parent.x, goal.parent.y]))
+
+        self.retraceRRTPath(goal.parent)
 
 
 # Load the grid, set start and goal <x, y> positions, number of iterations, step size

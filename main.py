@@ -44,8 +44,18 @@ class RRT:
 
     # steer a distance from the start point to the end point
     def steerToPoint(self, start, end):
-        #test
-        pass
+        offset = self.distance * self.unitVector(start, end)
+        point = np.array([start.x + offset[0], start.y + offset[1]])
+        
+        #grid.shape[1] se refera la axa x!!!
+        if point[0] < 0 or point[0] >= self.grid.shape[1] or point[1] < 0 or point[1] >= self.grid.shape[0]:
+            return np.array([start.x, start.y])
+        
+        if not self.isInObstacle(start, point):
+            return point
+        else:
+            return np.array([start.x, start.y])
+        
 
     # check if the obstacle is in the path
     def isInObstacle(self, start, end):
@@ -60,8 +70,9 @@ class RRT:
         pass
 
     # find euclidian distance between a node and a point
-    def distance(self, node1, point):
-        pass
+    def distance(self, node, point):
+        dist = np.sqrt((node.x - point[0])**2 + (node.y - point[1])**2)
+        return dist
 
     # check if the goal has been reached
     def goalFound(self, point):

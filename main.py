@@ -44,6 +44,7 @@ class RRT:
 
     # steer a distance from the start point to the end point
     def steerToPoint(self, start, end):
+        #test
         pass
 
     # check if the obstacle is in the path

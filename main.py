@@ -36,7 +36,7 @@ class RRT:
 
     # add the point to the nearest node and add goal when reached
     def addChild(self, x, y):
-        if x == self.goal.x and y == self.goal.y:
+        if (x - self.goal.x)**2 + (y - self.goal.y)**2 <= self.distance**2:
             self.nearestNode.children.append(self.goal)
             self.goal.parent = self.nearestNode
         else:

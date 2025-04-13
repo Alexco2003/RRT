@@ -72,7 +72,17 @@ class RRT:
 
     # find the nearest node from a given unconnected point (Euclidian distance)
     def findNearestNode(self, root, point):
-        pass
+        if root is None:
+            return
+        minDistance = self.distance(root, point)
+        if minDistance < self.nearestDistance:
+            self.nearestDistance = minDistance
+            self.nearestNode = root
+
+        for child in root.children:
+            self.findNearestNode(child, point)
+
+
 
     # find euclidian distance between a node and a point
     def distance(self, node1, point):

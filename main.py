@@ -21,7 +21,7 @@ class RRT:
     def __init__(self, start, goal, grid, iterations, distance):
         self.randomTree = Node(start[0], start[1]) # root of the tree
         self.goal = Node(goal[0], goal[1]) # goal node
-        self.grid = grid # grid of the environment
+        self.grid = grid # grid of the environment; x,y on the grid = grid[y,x]
         self.iterations = min(iterations, 300) # max iterations
         self.distance = distance # distance to extend towards the random node
 
@@ -57,7 +57,14 @@ class RRT:
 
     # check if the obstacle is in the path
     def isInObstacle(self, start, end):
-        pass
+        vectorBetween = self.unitVector(start, end)
+        testPoint = np.array([0.0, 0.0])
+        for i in range(self.distance):
+            testPoint[0] = start.x + i*vectorBetween[0]
+            testPoint[1] = start.y + i*vectorBetween[1]
+            if self.grid[round(testPoint[1]).astype(np.int64),round(testPoint[0]).astype(np.int64)] == 1:
+                return True
+        return False
 
     # find unit vector between two points
     def unitVector(self, start, end):
@@ -86,7 +93,6 @@ class RRT:
 
 # Load the grid, set start and goal <x, y> positions, number of iterations, step size
 grid = np.load('test_images/test.npy')
-print(grid[899])
 start = np.array([100.0, 100.0])
 goal = np.array([1700.0,750.0])
 numIterations = 200

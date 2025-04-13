@@ -46,7 +46,10 @@ class RRT:
 
     # get a random point in the grid
     def randomPoint(self):
-        pass
+        x = random.randint(0, self.grid.shape[1] - 1)
+        y = random.randint(0, self.grid.shape[0] - 1)
+        point = np.array([x, y])
+        return point
 
     # steer a distance from the start point to the end point
     def steerToPoint(self, start, end):
@@ -83,6 +86,7 @@ class RRT:
 
 # Load the grid, set start and goal <x, y> positions, number of iterations, step size
 grid = np.load('test_images/test.npy')
+print(grid[899])
 start = np.array([100.0, 100.0])
 goal = np.array([1700.0,750.0])
 numIterations = 200

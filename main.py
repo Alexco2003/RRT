@@ -21,7 +21,7 @@ class RRT:
     def __init__(self, start, goal, grid, iterations, distance):
         self.randomTree = Node(start[0], start[1]) # root of the tree
         self.goal = Node(goal[0], goal[1]) # goal node
-        self.grid = grid # grid of the environment
+        self.grid = grid # grid of the environment; x,y on the grid = grid[y,x]
         self.iterations = min(iterations, 300) # max iterations
         self.distance = distance # distance to extend towards the random node
 
@@ -36,11 +36,20 @@ class RRT:
 
     # add the point to the nearest node and add goal when reached
     def addChild(self, x, y):
-        pass
+        if (x - self.goal.x)**2 + (y - self.goal.y)**2 <= self.distance**2:
+            self.nearestNode.children.append(self.goal)
+            self.goal.parent = self.nearestNode
+        else:
+            newNode = Node(x, y)
+            self.nearestNode.children.append(newNode)
+            newNode.parent = self.nearestNode
 
     # get a random point in the grid
     def randomPoint(self):
-        pass
+        x = random.randint(0, self.grid.shape[1] - 1)
+        y = random.randint(0, self.grid.shape[0] - 1)
+        point = np.array([x, y])
+        return point
 
     # steer a distance from the start point to the end point
     def steerToPoint(self, start, end):
@@ -59,7 +68,14 @@ class RRT:
 
     # check if the obstacle is in the path
     def isInObstacle(self, start, end):
-        pass
+        vectorBetween = self.unitVector(start, end)
+        testPoint = np.array([0.0, 0.0])
+        for i in range(self.distance):
+            testPoint[0] = start.x + i*vectorBetween[0]
+            testPoint[1] = start.y + i*vectorBetween[1]
+            if self.grid[round(testPoint[1]).astype(np.int64),round(testPoint[0]).astype(np.int64)] == 1:
+                return True
+        return False
 
     # find unit vector between two points
     def unitVector(self, start, end):
@@ -67,7 +83,17 @@ class RRT:
 
     # find the nearest node from a given unconnected point (Euclidian distance)
     def findNearestNode(self, root, point):
-        pass
+        if root is None:
+            return
+        minDistance = self.distance(root, point)
+        if minDistance < self.nearestDistance:
+            self.nearestDistance = minDistance
+            self.nearestNode = root
+
+        for child in root.children:
+            self.findNearestNode(child, point)
+
+
 
     # find euclidian distance between a node and a point
     def distance(self, node, point):

@@ -36,7 +36,13 @@ class RRT:
 
     # add the point to the nearest node and add goal when reached
     def addChild(self, x, y):
-        pass
+        if x == self.goal.x and y == self.goal.y:
+            self.nearestNode.children.append(self.goal)
+            self.goal.parent = self.nearestNode
+        else:
+            newNode = Node(x, y)
+            self.nearestNode.children.append(newNode)
+            newNode.parent = self.nearestNode
 
     # get a random point in the grid
     def randomPoint(self):

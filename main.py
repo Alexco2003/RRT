@@ -115,7 +115,8 @@ class RRT:
 
     # reset the nearest node and distance
     def resetNearestValues(self):
-        pass
+        self.nearestNode = None
+        self.nearestDistance = 10000
 
     # trace the path from goal to start
     def retraceRRTPath(self, goal):

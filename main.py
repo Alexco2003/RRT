@@ -79,7 +79,12 @@ class RRT:
 
     # find unit vector between two points
     def unitVector(self, start, end):
-        pass
+         #calculam directia in care vrem sa ne miscam in functie de coordonatele nodului start si coord. punctului la care vrem sa ajungem end
+        direction=np.array([end[0]-start.x,end[1]-start.y]) 
+        norm=np.linalg.norm(direction) #calculam lungimea sau modulul vectorului dir. (ex: norm=sqrt(a^2+b^2)), pentru a mentine distanta in directia end
+        if norm ==0: #daca norma unui punct e 0 inseamna ca nu are directie deci punctul de start este egal cu punctul de final si de asemenea n avem voie sa impartim la 0 in NumPy
+            return np.array([0.0,0.0])
+        return direction/norm #impartim ca sa obtinem un vector unitar=de lungime 1, dar cu aceeasi directie (ar trebui sa fie de ex: [0.2342.0.6544])
 
     # find the nearest node from a given unconnected point (Euclidian distance)
     def findNearestNode(self, root, point):

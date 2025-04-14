@@ -107,7 +107,11 @@ class RRT:
 
     # check if the goal has been reached
     def goalFound(self, point):
-        pass
+        dx= point[0]-self.goal.x
+        dy=point[1]-self.goal.y
+        distance_to_goal=np.sqrt(dx**2+dy**2) #calculeaza distanta dintr point si nodul goal
+        return distance_to_goal<=self.distance #daca distanta este mai mica sau egala cu self.distance atunci consideram ca a atins scopul
+
 
     # reset the nearest node and distance
     def resetNearestValues(self):

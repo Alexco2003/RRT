@@ -54,10 +54,23 @@ class RRT:
             newNode.parent = self.nearestNode
 
     # get a random point in the grid
-    def randomPoint(self):
-        x = random.randint(0, self.grid.shape[1] - 1)
-        y = random.randint(0, self.grid.shape[0] - 1)
-        point = np.array([x, y])
+    def randomPoint(self, iter):
+        if(iter % 10==0):
+            z=random.randint(0,1)
+            if(z==0):
+                y=self.goal.y
+                x= random.randint(0, self.grid.shape[1]-1)
+                point=np.array([x,y])
+            else:
+                x=self.goal.x
+                y= random.randint(0, self.grid.shape[0]-1)
+                point=np.array([x,y])
+
+        else:
+             x = random.randint(0, self.grid.shape[1] - 1)
+             y = random.randint(0, self.grid.shape[0] - 1)
+             point = np.array([x, y])
+            
         return point
 
     # steer a distance from the start point to the end point
@@ -169,12 +182,12 @@ class RRT:
 
 
 # Load the grid, set start and goal <x, y> positions, number of iterations, step size
-grid = np.load('test_images/test.npy')
+grid = np.load('test_images/test4.npy')
 print(grid.shape)
 start = np.array([100.0, 100.0])
-goal = np.array([1700.0,650.0])
+goal = np.array([1500.0,650.0])
 numIterations = 4999
-stepSize = 200
+stepSize = 50
 goalRegion = plt.Circle((goal[0], goal[1]), stepSize, color='b', fill=False)
 
 fig = plt.figure("RRT Algorithm")
@@ -192,10 +205,8 @@ for i in range(rrt.iterations):
     rrt.resetNearestValues()
     print("Iteration: ",i)
 
-    point=rrt.randomPoint()
-    #temp_plot, = plt.plot(point[0], point[1], 'o', color='orange', linestyle="--")
-    #plt.pause(0.50)
-    #temp_plot.remove()
+    point=rrt.randomPoint(i)
+    plt.plot(point[0],point[1],'co',linestyle="--")
     rrt.findNearestNode(rrt.randomTree,point)
     newPoint=rrt.steerToPoint(rrt.nearestNode,point)
 

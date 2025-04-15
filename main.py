@@ -22,12 +22,12 @@ class RRT:
         self.randomTree = Node(start[0], start[1]) # root of the tree
         self.goal = Node(goal[0], goal[1]) # goal node
         self.grid = grid # grid of the environment; x,y on the grid = grid[y,x]
-        self.iterations = min(iterations, 6000) # max iterations
+        self.iterations = min(iterations, 10000) # max iterations
         self.distance = distance # distance to extend towards the random node
 
         self.nearestNode = None # nearest node to the random node
         self.totalDistance = 0 # total distance of the path
-        self.nearestDistance = 10000 # distance to the nearest node
+        self.nearestDistance = 100000 # distance to the nearest node
         self.numWaypoints = 0 # number of waypoints
         self.waypoints = [] # list of waypoints
 
@@ -180,33 +180,82 @@ class RRT:
 
         self.retraceRRTPath(goal.parent)
 
+def random_seed():
+    random.seed()
+    min = 1
+    max = 11
+    return random.randint(min, max)
 
 # Load the grid, set start and goal <x, y> positions, number of iterations, step size
-grid = np.load('test_images/test4.npy')
-print(grid.shape)
-start = np.array([100.0, 100.0])
-goal = np.array([1500.0,650.0])
-numIterations = 4999
-stepSize = 50
-goalRegion = plt.Circle((goal[0], goal[1]), stepSize, color='b', fill=False)
+while True:
+    print("Select a number between 1 and 11 to load a grid. ")
+    print("Choose 0 for a random grid.")
+    print("Enter your number: ")
+    gridNumber = int(input())
+    if gridNumber >= 1 and gridNumber <= 11:
+        grid = np.load(f'test_images/test{gridNumber}.npy')
+        break
+    elif gridNumber == 0:
+        gridNumber = random_seed()
+        grid = np.load(f'test_images/test{gridNumber}.npy')
+        break
+    else:
+        print("Please enter a valid number! \n")
 
-fig = plt.figure("RRT Algorithm")
-plt.imshow(grid, cmap='binary')
-plt.plot(start[0], start[1], 'ro')
-plt.plot(goal[0], goal[1], 'bo')
-ax = fig.gca()
-ax.add_patch(goalRegion)
-plt.xlabel('X-axis $(m)$')
-plt.ylabel('Y-axis $(m)$')
+def setup(start, goal, numIterations, stepSize):
+    start = start
+    goal = goal
+    numIterations = numIterations
+    stepSize = stepSize
 
-rrt=RRT(start,goal,grid,numIterations,stepSize)
+    goalRegion = plt.Circle((goal[0], goal[1]), stepSize, color='b', fill=False)
+    fig = plt.figure("RRT Algorithm")
+    plt.imshow(grid, cmap='binary')
+    plt.plot(start[0], start[1], 'ro')
+    plt.plot(goal[0], goal[1], 'bo')
+    ax = fig.gca()
+    ax.add_patch(goalRegion)
+    plt.xlabel('X-axis $(m)$')
+    plt.ylabel('Y-axis $(m)$')
+
+    return start, goal, numIterations, stepSize
+
+if gridNumber == 1:
+    start, goal, numIterations, stepSize = setup([120.0, 650.0], [1435.0, 410.0], 100, 200)
+if gridNumber == 2:
+    start, goal, numIterations, stepSize = setup([567.0, 475.0], [1511.0, 292.0], 2000, 40)
+if gridNumber == 3:
+    start, goal, numIterations, stepSize = setup([16.0, 8.0], [1592.0, 754.0], 200, 175)
+if gridNumber == 4:
+    start, goal, numIterations, stepSize = setup([1555.0, 62.0], [297.0, 516.0], 750, 130)
+if gridNumber == 5:
+    start, goal, numIterations, stepSize = setup([135.0, 108.0], [1418.0, 101.0], 500, 100)
+if gridNumber == 6:
+    start, goal, numIterations, stepSize = setup([614.0, 634.0], [1186.0, 89.0], 1000, 50)
+if gridNumber == 7:
+    start, goal, numIterations, stepSize = setup([74.0, 655.0], [1396.0, 122.0], 750, 75)
+if gridNumber == 8:
+    start, goal, numIterations, stepSize = setup([454.0, 66.0], [150.0, 724.0], 1500, 80)
+if gridNumber == 9:
+    start, goal, numIterations, stepSize = setup([1521.0, 708.0], [44.0, 682.0], 1000, 40)
+if gridNumber == 10:
+    start, goal, numIterations, stepSize = setup([602.0, 553.0], [711.0, 57.0], 3000, 120)
+if gridNumber == 11:
+    start, goal, numIterations, stepSize = setup([37.0, 98.0], [1551.0, 687.0], 9999, 50)
+
+# print(grid.shape)
+rrt=RRT(start, goal, grid, numIterations, stepSize)
+
 
 for i in range(rrt.iterations):
     rrt.resetNearestValues()
     print("Iteration: ",i)
 
     point=rrt.randomPoint(i)
-    plt.plot(point[0],point[1],'co',linestyle="--")
+    # If we want to see how the random point gets generated
+    #temp_plot, = plt.plot(point[0], point[1], 'o', color='orange', linestyle="--")
+    #plt.pause(0.50)
+    #temp_plot.remove()
     rrt.findNearestNode(rrt.randomTree,point)
     newPoint=rrt.steerToPoint(rrt.nearestNode,point)
 
@@ -215,21 +264,20 @@ for i in range(rrt.iterations):
     plt.plot([rrt.nearestNode.x,newPoint[0]],[rrt.nearestNode.y,newPoint[1]],'go',linestyle="--")
 
     if(rrt.goalFound(newPoint)):
-        print("Goal found")
+        print("Goal found!")
         break
 
 rrt.retraceRRTPath(rrt.goal)
 rrt.waypoints.insert(0,start)
 print("Number of waypoints: ", rrt.numWaypoints)
 print("Path Distance: ", rrt.totalDistance)
-print("Waypoints: ",rrt.waypoints)
+#print("Waypoints: ",rrt.waypoints)
 
 for i in range(len(rrt.waypoints)-1):
     plt.plot([rrt.waypoints[i][0],rrt.waypoints[i+1][0]],[rrt.waypoints[i][1],rrt.waypoints[i+1][1]],'ro',linestyle="--")
     plt.pause(0.10)
 
 plt.show()
-
 
 
 

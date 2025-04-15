@@ -2,7 +2,7 @@ from PIL import Image, ImageOps
 import numpy as np
 import matplotlib.pyplot as plt
 
-img = Image.open('test_images/test.png')
+img = Image.open('test_images/test4.png')
 img = ImageOps.grayscale(img)
 
 np_img = np.array(img)
@@ -12,10 +12,10 @@ plt.set_cmap('binary')
 plt.imshow(np_img)
 
 # Save Image
-np.save('test_images/test.npy', np_img)
+np.save('test_images/test4.npy', np_img)
 
 #Read Image
-grid = np.load('test_images/test.npy')
+grid = np.load('test_images/test4.npy')
 print(grid)
 print(grid.shape)
 plt.imshow(grid, cmap = "binary")

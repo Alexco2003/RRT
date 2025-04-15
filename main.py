@@ -22,7 +22,7 @@ class RRT:
         self.randomTree = Node(start[0], start[1]) # root of the tree
         self.goal = Node(goal[0], goal[1]) # goal node
         self.grid = grid # grid of the environment; x,y on the grid = grid[y,x]
-        self.iterations = min(iterations, 300) # max iterations
+        self.iterations = min(iterations, 6000) # max iterations
         self.distance = distance # distance to extend towards the random node
 
         self.nearestNode = None # nearest node to the random node
@@ -62,16 +62,39 @@ class RRT:
 
     # steer a distance from the start point to the end point
     def steerToPoint(self, start, end):
-        newDistance = min(self.distance, self.distanceEuclidian(start, self.isInObstacle(start, end)))
-        offset = newDistance * self.unitVector(start, self.isInObstacle(start, end))
-        point = np.array([start.x + offset[0], start.y + offset[1]])
-        
+
+        direction = self.unitVector(start, end)
+        newEnd = np.array([start.x + self.distance*direction[0], start.y + self.distance*direction[1]]) # new end point along the direction of the random point
+
         #grid.shape[1] se refera la axa x!!!
-        if point[0] < 0 or point[0] >= self.grid.shape[1] or point[1] < 0 or point[1] >= self.grid.shape[0]:
-            return np.array([start.x, start.y])
+        if (newEnd[0] < 0 or newEnd[0] >= self.grid.shape[1] or newEnd[1] < 0 or newEnd[1] >= self.grid.shape[0]):
+
+            max_x = self.grid.shape[1] - 1
+            max_y = self.grid.shape[0] - 1
+
+            tx = float('inf')
+            ty = float('inf')
+
+            if direction[0] > 0:
+                tx = (max_x - start.x) / direction[0]
+            elif direction[0] < 0:
+                tx = -start.x / direction[0]
+
+            if direction[1] > 0:
+                ty = (max_y - start.y) / direction[1]
+            elif direction[1] < 0:
+                ty = -start.y / direction[1]
+
+            t = min(tx, ty, self.distance)
+            newEnd = np.array([start.x + t * direction[0], start.y + t * direction[1]])
         
-        return point
+        obstaclePoint = self.isInObstacle(start, newEnd)
+        distanceToObstacle = self.distanceEuclidian(start, obstaclePoint)
+        distanceTraveled = min(self.distance, distanceToObstacle)
         
+        finalPoint = np.array([start.x + direction[0] * distanceTraveled, start.y + direction[1] * distanceTraveled])
+
+        return finalPoint
 
     # check if the obstacle is in the path
     def isInObstacle(self, start, end):
@@ -149,8 +172,8 @@ class RRT:
 grid = np.load('test_images/test.npy')
 print(grid.shape)
 start = np.array([100.0, 100.0])
-goal = np.array([1700.0,750.0])
-numIterations = 500
+goal = np.array([1500.0,650.0])
+numIterations = 4999
 stepSize = 200
 goalRegion = plt.Circle((goal[0], goal[1]), stepSize, color='b', fill=False)
 
@@ -170,6 +193,7 @@ for i in range(rrt.iterations):
     print("Iteration: ",i)
 
     point=rrt.randomPoint()
+    # plt.plot(point[0],point[1],'co',linestyle="--")
     rrt.findNearestNode(rrt.randomTree,point)
     newPoint=rrt.steerToPoint(rrt.nearestNode,point)
 

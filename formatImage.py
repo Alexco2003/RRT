@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-img = Image.open('test_images/test.png')
+img = Image.open('test_images/test4.png')
 
 fixed_size = (1800, 900)
 img = img.resize(fixed_size)
@@ -20,4 +20,4 @@ plt.set_cmap('binary')
 plt.imshow(np_img)
 plt.show()
 
-np.save('test_images/test.npy', np_img)
+np.save('test_images/test4.npy', np_img)

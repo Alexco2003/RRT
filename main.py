@@ -172,7 +172,7 @@ class RRT:
 grid = np.load('test_images/test.npy')
 print(grid.shape)
 start = np.array([100.0, 100.0])
-goal = np.array([1500.0,650.0])
+goal = np.array([1700.0,650.0])
 numIterations = 4999
 stepSize = 200
 goalRegion = plt.Circle((goal[0], goal[1]), stepSize, color='b', fill=False)
@@ -193,7 +193,9 @@ for i in range(rrt.iterations):
     print("Iteration: ",i)
 
     point=rrt.randomPoint()
-    # plt.plot(point[0],point[1],'co',linestyle="--")
+    #temp_plot, = plt.plot(point[0], point[1], 'o', color='orange', linestyle="--")
+    #plt.pause(0.50)
+    #temp_plot.remove()
     rrt.findNearestNode(rrt.randomTree,point)
     newPoint=rrt.steerToPoint(rrt.nearestNode,point)
 

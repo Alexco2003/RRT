@@ -73,7 +73,7 @@ class RRT:
         for i in range(self.distance):
             testPoint[0] = start.x + i*vectorBetween[0]
             testPoint[1] = start.y + i*vectorBetween[1]
-            if self.grid[round(testPoint[1]).astype(np.int64),round(testPoint[0]).astype(np.int64)] == 1:
+            if self.grid[np.int64(round(testPoint[1])),np.int64(round(testPoint[0]))] == 1:
                 return True
         return False
 
@@ -90,7 +90,7 @@ class RRT:
     def findNearestNode(self, root, point):
         if root is None:
             return
-        minDistance = self.distance(root, point)
+        minDistance = self.distanceEuclidian(root, point)
         if minDistance < self.nearestDistance:
             self.nearestDistance = minDistance
             self.nearestNode = root
@@ -101,13 +101,13 @@ class RRT:
 
 
     # find euclidian distance between a node and a point
-    def distance(self, node, point):
+    def distanceEuclidian(self, node, point):
         dist = np.sqrt((node.x - point[0])**2 + (node.y - point[1])**2)
         return dist
 
     # check if the goal has been reached
     def goalFound(self, point):
-        distance_to_goal=self.distance(self.goal,point) #calculeaza distanta dintr point si nodul goal
+        distance_to_goal=self.distanceEuclidian(self.goal,point) #calculeaza distanta dintr point si nodul goal
         return distance_to_goal<=self.distance #daca distanta este mai mica sau egala cu self.distance atunci consideram ca a atins scopul
 
 
@@ -143,6 +143,43 @@ numIterations = 200
 stepSize = 50
 goalRegion = plt.Circle((goal[0], goal[1]), stepSize, color='b', fill=False)
 
+
+
+
+rrt=RRT(start,goal,grid,numIterations,stepSize)
+
+for i in range(rrt.iterations):
+    rrt.resetNearestValues()
+    print("Iteration: ",i)
+
+    point=rrt.randomPoint()
+    rrt.findNearestNode(rrt.randomTree,point)
+    newPoint=rrt.steerToPoint(rrt.nearestNode,point)
+    obstacle=rrt.isInObstacle(rrt.nearestNode,newPoint)
+
+    if(obstacle==False):
+        rrt.addChild(newPoint[0],newPoint[1])
+        plt.pause(0.10)
+        plt.plot([rrt.nearestNode.x,newPoint[0]],[rrt.nearestNode.y,newPoint[1]],'go',linestyle="--")
+
+        if(rrt.goalFound(newPoint)):
+            rrt.addChild(goal[0],goal[1])
+            print("Goal found")
+            break
+
+
+rrt.retraceRRTPath(rrt.goal)
+rrt.waypoints.insert(0,start)
+print("Number of waypoints: ", rrt.numWaypoints)
+print("Path Distance: ", rrt.totalDistance)
+print("Waypoints: ",rrt.waypoints)
+
+
+for i in range(len(rrt.waypoints)-1):
+    plt.plot([rrt.waypoints[i][0],rrt.waypoints[i+1][0]],[rrt.waypoints[i][1],rrt.waypoints[i+1][1]],'ro',linestyle="--")
+    plt.pause(0.10)
+
+    
 fig = plt.figure("RRT Algorithm")
 plt.imshow(grid, cmap='binary')
 plt.plot(start[0], start[1], 'ro')

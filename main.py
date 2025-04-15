@@ -73,7 +73,7 @@ class RRT:
         for i in range(self.distance):
             testPoint[0] = start.x + i*vectorBetween[0]
             testPoint[1] = start.y + i*vectorBetween[1]
-            if self.grid[np.int64(round(testPoint[1])),np.int64(round(testPoint[0]))] == 1:
+            if self.grid[min(np.int64(round(testPoint[1])),899),min(np.int64(round(testPoint[0])),1799)] == 1:
                 return True
         return False
 
@@ -124,19 +124,20 @@ class RRT:
         #end recursion when goal node reaches the start node
         if goal.x == self.randomTree.x and goal.y ==self.randomTree.y:
             return
-        
+
         self.numWaypoints += 1
         currentPoint = np.array([goal.x, goal.y])
         self.waypoints.insert(0, currentPoint)
-        self.totalDistance += self.distance
+        #self.totalDistance += self.distance
         #Daca suntem aproape de goal distanta poate fii mai mica deci cea de jos ar fii mai precisa
-        #self.totalDistance += np.linalg.norm(np.array([goal.x, goal.y]) - np.array([goal.parent.x, goal.parent.y]))
+        self.totalDistance += np.linalg.norm(np.array([goal.x, goal.y]) - np.array([goal.parent.x, goal.parent.y]))
 
         self.retraceRRTPath(goal.parent)
 
 
 # Load the grid, set start and goal <x, y> positions, number of iterations, step size
 grid = np.load('test_images/test.npy')
+print(grid.shape)
 start = np.array([100.0, 100.0])
 goal = np.array([1700.0,750.0])
 numIterations = 500
@@ -173,19 +174,17 @@ for i in range(rrt.iterations):
             print("Goal found")
             break
 
-
 rrt.retraceRRTPath(rrt.goal)
 rrt.waypoints.insert(0,start)
 print("Number of waypoints: ", rrt.numWaypoints)
 print("Path Distance: ", rrt.totalDistance)
 print("Waypoints: ",rrt.waypoints)
 
-
 for i in range(len(rrt.waypoints)-1):
     plt.plot([rrt.waypoints[i][0],rrt.waypoints[i+1][0]],[rrt.waypoints[i][1],rrt.waypoints[i+1][1]],'ro',linestyle="--")
     plt.pause(0.10)
 
-plt.show()    
+plt.show()
 
 
 

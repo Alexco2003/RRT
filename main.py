@@ -82,7 +82,7 @@ class RRT:
         for i in range(self.distance):
             testPoint[0] = start.x + i*vectorBetween[0]
             testPoint[1] = start.y + i*vectorBetween[1]
-            if self.grid[min(np.int64(round(testPoint[1])),899),min(np.int64(round(testPoint[0])),1799)] == 1:
+            if self.grid[min(np.int64(round(testPoint[1])),self.grid.shape[0]-1),min(np.int64(round(testPoint[0])),self.grid.shape[1]-1)] == 1:
                 return True
         return False
 

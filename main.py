@@ -180,15 +180,27 @@ class RRT:
 
         self.retraceRRTPath(goal.parent)
 
-
+def random_seed():
+    random.seed()
+    min = 1
+    max = 11
+    return random.randint(min, max)
 
 # Load the grid, set start and goal <x, y> positions, number of iterations, step size
 while True:
-    print("Please select a number between 1 and 20 to load the grid: ")
+    print("Select a number between 1 and 11 to load a grid. ")
+    print("Choose 0 for a random grid.")
+    print("Enter your number: ")
     gridNumber = int(input())
-    if gridNumber >= 1 and gridNumber <= 20:
+    if gridNumber >= 1 and gridNumber <= 11:
         grid = np.load(f'test_images/test{gridNumber}.npy')
         break
+    elif gridNumber == 0:
+        gridNumber = random_seed()
+        grid = np.load(f'test_images/test{gridNumber}.npy')
+        break
+    else:
+        print("Please enter a valid number! \n")
 
 def setup(start, goal, numIterations, stepSize):
     start = start
@@ -208,20 +220,31 @@ def setup(start, goal, numIterations, stepSize):
 
     return start, goal, numIterations, stepSize
 
-
+if gridNumber == 1:
+    start, goal, numIterations, stepSize = setup([120.0, 650.0], [1435.0, 410.0], 100, 200)
+if gridNumber == 2:
+    start, goal, numIterations, stepSize = setup([567.0, 475.0], [1511.0, 292.0], 2000, 40)
+if gridNumber == 3:
+    start, goal, numIterations, stepSize = setup([16.0, 8.0], [1592.0, 754.0], 200, 175)
+if gridNumber == 4:
+    start, goal, numIterations, stepSize = setup([1555.0, 62.0], [297.0, 516.0], 750, 130)
 if gridNumber == 5:
     start, goal, numIterations, stepSize = setup([135.0, 108.0], [1418.0, 101.0], 500, 100)
-    print(grid.shape)
 if gridNumber == 6:
     start, goal, numIterations, stepSize = setup([614.0, 634.0], [1186.0, 89.0], 1000, 50)
 if gridNumber == 7:
     start, goal, numIterations, stepSize = setup([74.0, 655.0], [1396.0, 122.0], 750, 75)
-
+if gridNumber == 8:
+    start, goal, numIterations, stepSize = setup([454.0, 66.0], [150.0, 724.0], 1500, 80)
+if gridNumber == 9:
+    start, goal, numIterations, stepSize = setup([1521.0, 708.0], [44.0, 682.0], 1000, 40)
 if gridNumber == 10:
-    start, goal, numIterations, stepSize = setup([74.0, 655.0], [1396.0, 122.0], 750, 75)
+    start, goal, numIterations, stepSize = setup([602.0, 553.0], [711.0, 57.0], 3000, 120)
+if gridNumber == 11:
+    start, goal, numIterations, stepSize = setup([37.0, 98.0], [1551.0, 687.0], 9999, 50)
 
-
-rrt=RRT(start,goal,grid,numIterations,stepSize)
+# print(grid.shape)
+rrt=RRT(start, goal, grid, numIterations, stepSize)
 
 
 for i in range(rrt.iterations):

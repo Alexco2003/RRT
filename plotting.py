@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-for i in range(5, 8):
+for i in range(1, 12):
     #Read Image
     grid = np.load(f'test_images/test{i}.npy')
     print(grid)

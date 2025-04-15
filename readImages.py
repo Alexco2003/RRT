@@ -2,7 +2,7 @@ from PIL import Image, ImageOps
 import numpy as np
 import matplotlib.pyplot as plt
 
-for i in range(1, 11):
+for i in range(1, 12):
     # Read Image
     img = Image.open(f'test_images/test{i}.png')
     img = ImageOps.grayscale(img)

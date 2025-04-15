@@ -77,7 +77,7 @@ class RRT:
                 return True
         return False
 
-    # find unit vector between two points
+    # find unit vector between a node and an end point
     def unitVector(self, start, end):
          #calculam directia in care vrem sa ne miscam in functie de coordonatele nodului start si coord. punctului la care vrem sa ajungem end
         direction=np.array([end[0]-start.x,end[1]-start.y]) 
@@ -107,9 +107,7 @@ class RRT:
 
     # check if the goal has been reached
     def goalFound(self, point):
-        dx= point[0]-self.goal.x
-        dy=point[1]-self.goal.y
-        distance_to_goal=np.sqrt(dx**2+dy**2) #calculeaza distanta dintr point si nodul goal
+        distance_to_goal=self.distance(self.goal,point) #calculeaza distanta dintr point si nodul goal
         return distance_to_goal<=self.distance #daca distanta este mai mica sau egala cu self.distance atunci consideram ca a atins scopul
 
 

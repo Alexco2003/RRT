@@ -49,6 +49,8 @@ class RRT:
             self.totalDistance += np.linalg.norm(np.array([self.goal.x, self.goal.y]) - np.array([self.goal.parent.x, self.goal.parent.y]))
 
         else:
+            if self.nearestNode.x == x and self.nearestNode.y == y:
+                return
             newNode = Node(x, y)
             self.nearestNode.children.append(newNode)
             newNode.parent = self.nearestNode
@@ -188,6 +190,7 @@ def random_seed():
 
 # Load the grid, set start and goal <x, y> positions, number of iterations, step size
 while True:
+    print()
     print("Select a number between 1 and 11 to load a grid. ")
     print("Choose 0 for a random grid.")
     print("Enter your number: ")
@@ -200,7 +203,7 @@ while True:
         grid = np.load(f'test_images/test{gridNumber}.npy')
         break
     else:
-        print("Please enter a valid number! \n")
+        print("Please enter a valid number!")
 
 def setup(start, goal, numIterations, stepSize):
     start = start
@@ -243,6 +246,7 @@ if gridNumber == 10:
 if gridNumber == 11:
     start, goal, numIterations, stepSize = setup([37.0, 98.0], [1551.0, 687.0], 9999, 50)
 
+print()
 # print(grid.shape)
 rrt=RRT(start, goal, grid, numIterations, stepSize)
 
@@ -253,15 +257,17 @@ for i in range(rrt.iterations):
 
     point=rrt.randomPoint(i)
     # If we want to see how the random point gets generated
-    #temp_plot, = plt.plot(point[0], point[1], 'o', color='orange', linestyle="--")
-    #plt.pause(0.50)
-    #temp_plot.remove()
+    # temp_plot, = plt.plot(point[0], point[1], 'o', color='orange', linestyle="--")
+    # plt.pause(2)
+    # temp_plot.remove()
     rrt.findNearestNode(rrt.randomTree,point)
     newPoint=rrt.steerToPoint(rrt.nearestNode,point)
 
     rrt.addChild(newPoint[0],newPoint[1])
     plt.pause(0.10)
-    plt.plot([rrt.nearestNode.x,newPoint[0]],[rrt.nearestNode.y,newPoint[1]],'go',linestyle="--")
+    # colors = ['g', 'b', 'm']
+    # color_index = i % 3  # Determine the color based on the iteration
+    plt.plot([rrt.nearestNode.x, newPoint[0]], [rrt.nearestNode.y, newPoint[1]], 'go', linestyle="--")
 
     if(rrt.goalFound(newPoint)):
         print("Goal found!")

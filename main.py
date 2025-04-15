@@ -139,12 +139,18 @@ class RRT:
 grid = np.load('test_images/test.npy')
 start = np.array([100.0, 100.0])
 goal = np.array([1700.0,750.0])
-numIterations = 200
-stepSize = 50
+numIterations = 500
+stepSize = 200
 goalRegion = plt.Circle((goal[0], goal[1]), stepSize, color='b', fill=False)
 
-
-
+fig = plt.figure("RRT Algorithm")
+plt.imshow(grid, cmap='binary')
+plt.plot(start[0], start[1], 'ro')
+plt.plot(goal[0], goal[1], 'bo')
+ax = fig.gca()
+ax.add_patch(goalRegion)
+plt.xlabel('X-axis $(m)$')
+plt.ylabel('Y-axis $(m)$')
 
 rrt=RRT(start,goal,grid,numIterations,stepSize)
 
@@ -179,15 +185,8 @@ for i in range(len(rrt.waypoints)-1):
     plt.plot([rrt.waypoints[i][0],rrt.waypoints[i+1][0]],[rrt.waypoints[i][1],rrt.waypoints[i+1][1]],'ro',linestyle="--")
     plt.pause(0.10)
 
-    
-fig = plt.figure("RRT Algorithm")
-plt.imshow(grid, cmap='binary')
-plt.plot(start[0], start[1], 'ro')
-plt.plot(goal[0], goal[1], 'bo')
-ax = fig.gca()
-ax.add_patch(goalRegion)
-plt.xlabel('X-axis $(m)$')
-plt.ylabel('Y-axis $(m)$')
-plt.show()
+plt.show()    
+
+
 
 

@@ -37,8 +37,17 @@ class RRT:
     # add the point to the nearest node and add goal when reached
     def addChild(self, x, y):
         if (x - self.goal.x)**2 + (y - self.goal.y)**2 <= self.distance**2:
-            self.nearestNode.children.append(self.goal)
-            self.goal.parent = self.nearestNode
+            newNode2 = Node(x, y)
+            self.nearestNode.children.append(newNode2)
+            newNode2.parent = self.nearestNode
+
+            newNode2.children.append(self.goal)
+            self.goal.parent = newNode2
+
+            self.waypoints.insert(0, np.array([x, y]))
+            self.numWaypoints += 1
+            self.totalDistance += np.linalg.norm(np.array([self.goal.x, self.goal.y]) - np.array([self.goal.parent.x, self.goal.parent.y]))
+
         else:
             newNode = Node(x, y)
             self.nearestNode.children.append(newNode)
@@ -107,7 +116,7 @@ class RRT:
 
     # check if the goal has been reached
     def goalFound(self, point):
-        distance_to_goal=self.distanceEuclidian(self.goal,point) #calculeaza distanta dintr point si nodul goal
+        distance_to_goal=self.distanceEuclidian(self.goal,point) #calculeaza distanta dintr point si nodul goal 
         return distance_to_goal<=self.distance #daca distanta este mai mica sau egala cu self.distance atunci consideram ca a atins scopul
 
 
@@ -128,9 +137,9 @@ class RRT:
         self.numWaypoints += 1
         currentPoint = np.array([goal.x, goal.y])
         self.waypoints.insert(0, currentPoint)
-        #self.totalDistance += self.distance
+        self.totalDistance += self.distance
         #Daca suntem aproape de goal distanta poate fii mai mica deci cea de jos ar fii mai precisa
-        self.totalDistance += np.linalg.norm(np.array([goal.x, goal.y]) - np.array([goal.parent.x, goal.parent.y]))
+        
 
         self.retraceRRTPath(goal.parent)
 
@@ -170,7 +179,6 @@ for i in range(rrt.iterations):
         plt.plot([rrt.nearestNode.x,newPoint[0]],[rrt.nearestNode.y,newPoint[1]],'go',linestyle="--")
 
         if(rrt.goalFound(newPoint)):
-            rrt.addChild(goal[0],goal[1])
             print("Goal found")
             break
 

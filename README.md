@@ -26,4 +26,4 @@ You can use Paint, the program will interpret the black colored blocks as obstac
 After you run the `python readImages.py` command, the image will be saved in the `test_images` folder.
 
 Here are some examples of the RRT algorithm finding a path in a custom map:  
-![RRT Path Example](test_images/test6_2)
+![RRT Path Example](result_images/test6_2)

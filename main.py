@@ -246,7 +246,6 @@ if gridNumber == 11:
 # print(grid.shape)
 rrt=RRT(start, goal, grid, numIterations, stepSize)
 
-
 for i in range(rrt.iterations):
     rrt.resetNearestValues()
     print("Iteration: ",i)
@@ -262,6 +261,7 @@ for i in range(rrt.iterations):
     rrt.addChild(newPoint[0],newPoint[1])
     plt.pause(0.10)
     plt.plot([rrt.nearestNode.x,newPoint[0]],[rrt.nearestNode.y,newPoint[1]],'go',linestyle="--")
+    
 
     if(rrt.goalFound(newPoint)):
         print("Goal found!")

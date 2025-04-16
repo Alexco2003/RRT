@@ -27,3 +27,9 @@ After you run the `python readImages.py` command, the image will be saved in the
 
 Here are some examples of the RRT algorithm finding a path in a custom map:  
 ![RRT Path Example](result_images/test6_2.png)
+
+This test was done with the classic RRT algorithm  
+![RRT Path Example](result_images/testChaos.png)
+
+This test was done with the RRT algorithm after some improvements were added
+![RRT Path Example](result_images/chaosMode.png)

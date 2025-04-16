@@ -16,7 +16,7 @@ Setup
 
 How to Run  
 To execute the main script use the following commnand:  
- `python main.py`
+ `python main.py`  
 At runtime, you will be prompted to select a grid number (1-11).  
 The algorithm will attempt to compute and visualize a path from start to goal in real-time using Matplotlib.
 

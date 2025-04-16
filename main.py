@@ -250,7 +250,6 @@ print()
 # print(grid.shape)
 rrt=RRT(start, goal, grid, numIterations, stepSize)
 
-
 for i in range(rrt.iterations):
     rrt.resetNearestValues()
     print("Iteration: ",i)

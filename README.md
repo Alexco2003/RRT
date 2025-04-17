@@ -17,12 +17,13 @@
  
 - To execute the main script, use the following command: `python main.py`
 - At runtime, you will be prompted to select a grid number (1-11).
+- Then, the algorithm will attempt to compute and visualize a path from start to goal in real-time using Matplotlib.
 
-The algorithm will attempt to compute and visualize a path from start to goal in real-time using Matplotlib.
+## Create Your Own Map
 
-You can create custom environments by drawing your own maps.  
-You can use Paint, the program will interpret the black colored blocks as obstacles.  
-After you run the `python readImages.py` command, the image will be saved in the `test_images` folder.
+- You can create **custom environments** by drawing your own maps! Use **Paint** (or any image editor) to design your environment. The program will interpret the **black colored shapes as obstacles**, and the white area as free space.
+- Once your map is saved, it will be processed and added to the `test_images` folder.
+- For more help with creating and using custom maps, check:  **`readImages.py`** and **`plotting.py`**
 
 Here are some examples of the RRT algorithm finding a path in a custom map:  
 ![RRT Path Example](result_images/test6_2.png)

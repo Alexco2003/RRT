@@ -56,4 +56,18 @@ This test was done with the improved RRT algorithm.
 - The full project documentation can be found in the [`presentation`](presentation/) folder.
 - There you will find both the **Romanian** and **English** versions, with explanations about the **RRT algorithm** and the **improvements that were made**.
 
+## References
+
+We used multiple sources of information to better understand the concepts behind the RRT algorithm and to successfully implement this project.
+
+Here are some of the most useful resources we referenced:
+
+- [Rapidly-Exploring Random Trees (Carnegie Mellon Lecture PDF)](https://www.cs.cmu.edu/~motionplanning/lecture/lec20.pdf)
+- [F1TENTH Lecture: RRT Path Planning (CourseKit Docs)](https://f1tenth-coursekit.readthedocs.io/en/stable/lectures/ModuleD/lecture14.html)
+- [RRT Algorithm Explained – YouTube](https://www.youtube.com/watch?v=OXikozpLFGo&t=1202s)
+- [RRT Path Planning Visualized – YouTube](https://youtu.be/Ob3BIJkQJEw)
+- [Medium Article: Robotic Path Planning — RRT and RRT\*](https://theclassytim.medium.com/robotic-path-planning-rrt-and-rrt-212319121378)
+- [Path Planning Algorithms Playlist – YouTube](https://www.youtube.com/watch?v=-fePRPyeKnc&list=PLn8PRpmsu08qQorl_KLrSns9jI827aplS)
+
+
 

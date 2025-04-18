@@ -25,11 +25,32 @@
 - Once your map is saved, it will be processed and added to the `test_images` folder.
 - For more help with creating and using custom maps, check:  **`readImages.py`** and **`plotting.py`**
 
-Here are some examples of the RRT algorithm finding a path in a custom map:  
+##  RRT Algorithm in Action
+
+- Below are some examples of the **RRT algorithm** successfully finding a path in different custom maps:
+
+![RRT Path Example](result_images/test5.png)
+
 ![RRT Path Example](result_images/test6_2.png)
 
-This test was done with the classic RRT algorithm  
-![RRT Path Example](result_images/testChaos.png)
+![RRT Path Example](result_images/test9.png)
 
-This test was done with the RRT algorithm after some improvements were added
-![RRT Path Example](result_images/chaosMode.png)
+- You can explore more results and visualizations in the [`result_images`](result_images/) folder.
+
+## Optimization
+
+- We made several optimizations to the basic RRT implementation.
+- These changes make the algorithm find a path **faster** and **more efficiently**, especially in more complex environments.
+- More details about the changes can be found in the [Documentation](#documentation) section.
+&nbsp;<br><br>
+This test was done with the classic RRT algorithm, before the improvements.
+![Classic RRT](result_images/testChaos.png)  
+*Before improvements*
+&nbsp;<br><br>
+This test was done with the improved RRT algorithm.
+![Improved RRT](result_images/chaosMode.png)  
+*After improvements*
+
+## Documentation
+
+

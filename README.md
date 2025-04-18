@@ -64,7 +64,7 @@ Here are some of the most useful resources we referenced:
 
 - [Rapidly-Exploring Random Trees (Carnegie Mellon Lecture PDF)](https://www.cs.cmu.edu/~motionplanning/lecture/lec20.pdf)
 - [F1TENTH Lecture: RRT Path Planning (CourseKit Docs)](https://f1tenth-coursekit.readthedocs.io/en/stable/lectures/ModuleD/lecture14.html)
-- [RRT Algorithm Explained – YouTube](https://www.youtube.com/watch?v=OXikozpLFGo&t=1202s)
+- [RRT Algorithm Explained – YouTube](https://youtu.be/OXikozpLFGo?feature=shared)
 - [RRT Path Planning Visualized – YouTube](https://youtu.be/Ob3BIJkQJEw)
 - [Medium Article: Robotic Path Planning — RRT and RRT\*](https://theclassytim.medium.com/robotic-path-planning-rrt-and-rrt-212319121378)
 - [Path Planning Algorithms Playlist – YouTube](https://www.youtube.com/watch?v=-fePRPyeKnc&list=PLn8PRpmsu08qQorl_KLrSns9jI827aplS)

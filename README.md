@@ -22,7 +22,7 @@
 ## Create Your Own Map
 
 - You can create **custom environments** by drawing your own maps! Use **Paint** (or any image editor) to design your environment. The program will interpret the **black colored shapes as obstacles**, and the white area as free space.
-- Once your map is saved, it will be processed and added to the `test_images` folder.
+- Once your map is saved, it will be processed and added to the [`test_images`](test_images/) folder.
 - For more help with creating and using custom maps, check:  **`readImages.py`** and **`plotting.py`**
 
 ##  RRT Algorithm in Action
@@ -52,5 +52,8 @@ This test was done with the improved RRT algorithm.
 *After improvements*
 
 ## Documentation
+
+- The full project documentation can be found in the [`presentation`](presentation/) folder.
+- There you will find both the **Romanian** and **English** versions, with explanations about the **RRT algorithm** and the **improvements that were made**.
 
 

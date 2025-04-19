@@ -1,5 +1,5 @@
-# RRT
-## RRT Project — Robot Path Planning
+# RRT Project — Robot Path Planning
+## Overview
 
 - This project implements the **RRT (Rapidly-exploring Random Tree)** algorithm for 2D robot path planning using **Python**, **NumPy**, and **Matplotlib**.
 - The goal is to compute an efficient path from a **start position** to a **target goal**, while **avoiding obstacles** on a grid-based map.
